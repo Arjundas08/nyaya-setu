@@ -221,7 +221,11 @@ def render_form() -> dict | None:
                 key="oracle_voice_lang",
                 label_visibility="collapsed"
             )
-            voice_audio = st.audio_input("Record your situation", key="oracle_voice", label_visibility="collapsed")
+            # st.audio_input requires Streamlit ≥ 1.33.0
+            if hasattr(st, "audio_input"):
+                voice_audio = st.audio_input("Record your situation", key="oracle_voice", label_visibility="collapsed")
+            else:
+                voice_audio = st.file_uploader("Upload voice recording", type=["wav", "mp3", "ogg", "m4a"], key="oracle_voice", label_visibility="collapsed")
             if voice_audio:
                 if st.button("🎯 Transcribe", key="oracle_transcribe_btn"):
                     with st.spinner("Transcribing with Bhashini AI..."):

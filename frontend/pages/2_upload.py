@@ -231,8 +231,14 @@ def input_zone():
         Bhashini AI transcribes and analyzes.
     </div>
 </div>""", unsafe_allow_html=True)
-        audio = st.audio_input("Record Voice",
-            label_visibility="collapsed", key="voice")
+        # st.audio_input requires Streamlit ≥ 1.33.0
+        if hasattr(st, "audio_input"):
+            audio = st.audio_input("Record Voice",
+                label_visibility="collapsed", key="voice")
+        else:
+            audio = st.file_uploader("Upload Voice Recording",
+                type=["wav", "mp3", "ogg", "m4a"],
+                label_visibility="collapsed", key="voice")
 
     return uploaded, camera, audio
 
