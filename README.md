@@ -1,3 +1,12 @@
+---
+title: Nyaya Setu
+emoji: ⚖️
+colorFrom: yellow
+colorTo: orange
+sdk: docker
+pinned: false
+---
+
 # nyaya-setu
 # ⚖️ Nyaya-Setu — न्याय सेतु
 ### Bridge to Justice · AI-Powered Legal Assistance for Every Indian Citizen
