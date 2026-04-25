@@ -21,7 +21,7 @@ import logging
 import time
 
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
@@ -36,31 +36,31 @@ logger = logging.getLogger(__name__)
 # ════════════════════════════════════════════════════════
 # CONFIGURATION
 # ════════════════════════════════════════════════════════
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 CHROMA_PATH  = "chroma_db"
 COLLECTION   = "nyaya_setu_laws"
 EMBED_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"
 
-if not GEMINI_API_KEY:
-    print("⚠️ WARNING: GEMINI_API_KEY not set — LLM features will not work")
+if not GROQ_API_KEY:
+    print("⚠️ WARNING: GROQ_API_KEY not set — LLM features will not work")
 
 # ════════════════════════════════════════════════════════
-# LOAD GEMINI LLM
+# LOAD GROQ LLM
 # ════════════════════════════════════════════════════════
 _llm = None
 try:
-    if GEMINI_API_KEY:
-        print("Loading Gemini LLM...")
-        _llm = ChatGoogleGenerativeAI(
-            google_api_key=GEMINI_API_KEY,
-            model=os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+    if GROQ_API_KEY:
+        print("Loading Groq LLM...")
+        _llm = ChatGroq(
+            groq_api_key=GROQ_API_KEY,
+            model_name=os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
             temperature=0.1,
             max_tokens=1024,
             request_timeout=30,
         )
-        print("✅ Gemini LLM ready")
+        print("✅ Groq LLM ready")
 except Exception as e:
-    print(f"⚠️ Gemini LLM failed to load: {e}")
+    print(f"⚠️ Groq LLM failed to load: {e}")
 
 
 # ════════════════════════════════════════════════════════

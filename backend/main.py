@@ -37,8 +37,8 @@ except Exception as e:
 def _validate_env():
     """Check all required env vars exist before server starts."""
     required = {
-        "GEMINI_API_KEY": "Get from https://aistudio.google.com",
-        "GEMINI_MODEL":   "e.g. gemini-2.0-flash",
+        "GROQ_API_KEY": "Get from https://console.groq.com",
+        "GROQ_MODEL":   "e.g. llama-3.1-8b-instant",
         "MONGO_URI":    "Get from MongoDB Atlas dashboard",
     }
     missing = []
@@ -122,7 +122,7 @@ async def health():
         "status":   "healthy",
         "version":  "2.0",
         "mongodb":  "connected" if is_connected() else "not_connected",
-        "model":    os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+        "model":    os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
     }
 
 # ════════════════════════════════════════════════════════

@@ -10,7 +10,7 @@ import time
 import logging
 from typing import Optional
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,17 +20,17 @@ logger = logging.getLogger(__name__)
 # ════════════════════════════════════════════════════════
 # CONFIGURATION
 # ════════════════════════════════════════════════════════
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-if not GEMINI_API_KEY:
-    print("⚠️ WARNING: GEMINI_API_KEY not set — classifier will not work")
+if not GROQ_API_KEY:
+    print("⚠️ WARNING: GROQ_API_KEY not set — classifier will not work")
 
 _llm = None
 try:
-    if GEMINI_API_KEY:
-        _llm = ChatGoogleGenerativeAI(
-            google_api_key=GEMINI_API_KEY,
-            model=os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+    if GROQ_API_KEY:
+        _llm = ChatGroq(
+            groq_api_key=GROQ_API_KEY,
+            model_name=os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
             temperature=0.1,
             max_tokens=3000,
             request_timeout=30,

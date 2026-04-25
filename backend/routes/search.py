@@ -21,7 +21,7 @@ import json
 import logging
 from fastapi import APIRouter
 from pydantic import BaseModel
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,10 +30,10 @@ router = APIRouter()
 
 _llm = None
 try:
-    if os.getenv("GEMINI_API_KEY"):
-        _llm = ChatGoogleGenerativeAI(
-            google_api_key=os.getenv("GEMINI_API_KEY"),
-            model=os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+    if os.getenv("GROQ_API_KEY"):
+        _llm = ChatGroq(
+            groq_api_key=os.getenv("GROQ_API_KEY"),
+            model_name=os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
             temperature=0.1,
             max_tokens=900,
         )
