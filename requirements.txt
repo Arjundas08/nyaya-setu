@@ -7,6 +7,7 @@ python-dotenv
 pymongo
 langchain
 langchain-community
+langchain-text-splitters
 langchain-google-genai
 chromadb
 sentence-transformers
@@ -15,11 +16,10 @@ edge-tts
 aiohttp
 paddleocr
 paddlepaddle
-torch
 PyMuPDF
+pypdf
 Werkzeug
 pydantic
-pydantic-core
 scikit-learn
 beautifulsoup4
 pillow

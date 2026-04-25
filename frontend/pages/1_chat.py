@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 API = "http://localhost:8000"
-BG_PATH = os.path.join(os.path.dirname(__file__), "nyaya_setu_bridge.png")
+BG_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "nyayasetu_bg.png")
 
 def b64(path):
     try:

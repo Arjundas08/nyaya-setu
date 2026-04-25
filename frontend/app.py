@@ -9,10 +9,9 @@ st.set_page_config(
 )
 
 # ════════════════════════════════════════════════════════════
-# ASSETS — load logo and background image
+# ASSETS — load background image (logo uses emoji only)
 # ════════════════════════════════════════════════════════════
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "nyayasetu_logo.png")
-BG_PATH   = os.path.join(os.path.dirname(__file__), "nyaya_setu_bridge.png")
+BG_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "nyayasetu_bg.png")
 
 @st.cache_data
 def load_asset(path: str) -> str | None:
@@ -25,7 +24,7 @@ def load_asset(path: str) -> str | None:
     except (OSError, IOError):
         return None
 
-LOGO = load_asset(LOGO_PATH)
+LOGO = None  # Always use emoji
 BG   = load_asset(BG_PATH)
 
 
