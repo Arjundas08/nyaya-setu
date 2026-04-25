@@ -31,11 +31,8 @@ router = APIRouter()
 _llm = ChatGoogleGenerativeAI(
     google_api_key=os.getenv("GEMINI_API_KEY"),
     model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1
-),
-    model_name  = os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature = 0.1,
-    max_tokens  = 900,
+    temperature=0.1,
+    max_tokens=900,
 )
 
 RELEVANCE_THRESHOLD = 55   # cases scoring below this are hidden

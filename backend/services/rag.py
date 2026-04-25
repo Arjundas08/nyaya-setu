@@ -52,10 +52,8 @@ print("Loading Gemini LLM...")
 _llm = ChatGoogleGenerativeAI(
     google_api_key=os.getenv("GEMINI_API_KEY"),
     model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1
-),
     temperature=0.1,
-    max_tokens=1024,   # ← reduced: was 2000, frees ~1000 tokens from TPM budget
+    max_tokens=1024,
     request_timeout=30,
 )
 print("✅ Gemini LLM ready")

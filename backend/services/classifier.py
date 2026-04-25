@@ -31,9 +31,7 @@ if not GEMINI_API_KEY:
 _llm = ChatGoogleGenerativeAI(
     google_api_key=os.getenv("GEMINI_API_KEY"),
     model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1
-),  #NEW
-    temperature=0,
+    temperature=0.1,
     max_tokens=3000,
     request_timeout=30,
 )
