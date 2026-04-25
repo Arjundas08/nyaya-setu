@@ -22,15 +22,20 @@ logger = logging.getLogger(__name__)
 # ════════════════════════════════════════════════════════
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
-    raise EnvironmentError("GEMINI_API_KEY not set in .env")
+    print("⚠️ WARNING: GEMINI_API_KEY not set — risk engine will not work")
 
-_llm = ChatGoogleGenerativeAI(
-    google_api_key=os.getenv("GEMINI_API_KEY"),
-    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1,
-    max_tokens=2000,
-    request_timeout=30,
-)
+_llm = None
+try:
+    if GEMINI_API_KEY:
+        _llm = ChatGoogleGenerativeAI(
+            google_api_key=GEMINI_API_KEY,
+            model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+            temperature=0.1,
+            max_tokens=2000,
+            request_timeout=30,
+        )
+except Exception as e:
+    print(f"⚠️ Risk engine LLM failed: {e}")
 
 MAX_RETRIES = 3
 RETRY_DELAY = 2.0

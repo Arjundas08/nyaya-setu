@@ -42,21 +42,25 @@ COLLECTION   = "nyaya_setu_laws"
 EMBED_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"
 
 if not GEMINI_API_KEY:
-    raise EnvironmentError("GEMINI_API_KEY not set in .env file")
-
+    print("⚠️ WARNING: GEMINI_API_KEY not set — LLM features will not work")
 
 # ════════════════════════════════════════════════════════
-# LOAD GROQ LLM
+# LOAD GEMINI LLM
 # ════════════════════════════════════════════════════════
-print("Loading Gemini LLM...")
-_llm = ChatGoogleGenerativeAI(
-    google_api_key=os.getenv("GEMINI_API_KEY"),
-    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1,
-    max_tokens=1024,
-    request_timeout=30,
-)
-print("✅ Gemini LLM ready")
+_llm = None
+try:
+    if GEMINI_API_KEY:
+        print("Loading Gemini LLM...")
+        _llm = ChatGoogleGenerativeAI(
+            google_api_key=GEMINI_API_KEY,
+            model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+            temperature=0.1,
+            max_tokens=1024,
+            request_timeout=30,
+        )
+        print("✅ Gemini LLM ready")
+except Exception as e:
+    print(f"⚠️ Gemini LLM failed to load: {e}")
 
 
 # ════════════════════════════════════════════════════════

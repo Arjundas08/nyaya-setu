@@ -11,7 +11,7 @@ st.set_page_config(
 # ════════════════════════════════════════════════════════════
 # ASSETS — load logo and background image
 # ════════════════════════════════════════════════════════════
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "nyayasetu_logo.jpg")
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "nyayasetu_logo.png")
 BG_PATH   = os.path.join(os.path.dirname(__file__), "nyaya_setu_bridge.png")
 
 @st.cache_data

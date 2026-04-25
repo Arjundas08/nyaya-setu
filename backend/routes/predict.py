@@ -24,12 +24,17 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # ── LLM setup — uses centralized GEMINI_MODEL from .env ─────
-_llm = ChatGoogleGenerativeAI(
-    google_api_key=os.getenv("GEMINI_API_KEY"),
-    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1,
-    max_tokens=1200,
-)
+_llm = None
+try:
+    if os.getenv("GEMINI_API_KEY"):
+        _llm = ChatGoogleGenerativeAI(
+            google_api_key=os.getenv("GEMINI_API_KEY"),
+            model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+            temperature=0.1,
+            max_tokens=1200,
+        )
+except Exception as e:
+    print(f"⚠️ Predict LLM failed: {e}")
 
 
 # ════════════════════════════════════════════════════════════

@@ -10,11 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     curl \
     git \
-    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Create non-root user ──
-# (Nginx needs root to start, so we'll adjust permissions)
 RUN useradd -m -u 1000 user
 ENV PATH="/home/user/.local/bin:$PATH"
 
@@ -30,12 +28,6 @@ RUN python -c "from paddleocr import PaddleOCR; PaddleOCR(use_angle_cls=True, la
 # ── Copy project files ──
 COPY --chown=user . /app
 
-# ── Setup Nginx ──
-# (We copy our custom non-root config)
-COPY nginx.conf /etc/nginx/nginx.conf
-RUN chown -R user:user /app && \
-    chmod +x /app/start.sh
-
 # ── Build ChromaDB knowledge base ──
 ENV BUILD_MODE=docker
 RUN python scripts/build_knowledge_base.py || echo "WARNING: Knowledge base build had issues"
@@ -43,8 +35,8 @@ RUN python scripts/build_knowledge_base.py || echo "WARNING: Knowledge base buil
 # ── Switch to non-root user ──
 USER user
 
-# Hugging Face Spaces port
+# Hugging Face exposes this one port
 EXPOSE 7860
 
-# Start everything via script
-CMD ["/bin/bash", "/app/start.sh"]
+# Simple: FastAPI on 8000 (internal) + Streamlit on 7860 (exposed)
+CMD ["bash", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port 8000 & streamlit run frontend/app.py --server.port 7860 --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false"]

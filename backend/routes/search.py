@@ -28,12 +28,17 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-_llm = ChatGoogleGenerativeAI(
-    google_api_key=os.getenv("GEMINI_API_KEY"),
-    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
-    temperature=0.1,
-    max_tokens=900,
-)
+_llm = None
+try:
+    if os.getenv("GEMINI_API_KEY"):
+        _llm = ChatGoogleGenerativeAI(
+            google_api_key=os.getenv("GEMINI_API_KEY"),
+            model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+            temperature=0.1,
+            max_tokens=900,
+        )
+except Exception as e:
+    print(f"⚠️ Search LLM failed: {e}")
 
 RELEVANCE_THRESHOLD = 55   # cases scoring below this are hidden
 

@@ -1,5 +1,6 @@
-data/legal_pdfs/
-frontend/*.png
-frontend/*.jpg
-*.png
-*.jpg
+venv/
+venv311/
+.venv/
+__pycache__/
+*.pyc
+.git/
