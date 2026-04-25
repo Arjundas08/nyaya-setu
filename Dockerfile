@@ -31,14 +31,17 @@ RUN python -c "from paddleocr import PaddleOCR; PaddleOCR(use_angle_cls=True, la
 COPY --chown=user . /app
 
 # ── Setup Nginx ──
+# (We copy our custom non-root config)
 COPY nginx.conf /etc/nginx/nginx.conf
-RUN touch /app/backend.log /app/streamlit.log && \
-    chown -R user:user /app && \
+RUN chown -R user:user /app && \
     chmod +x /app/start.sh
 
 # ── Build ChromaDB knowledge base ──
 ENV BUILD_MODE=docker
 RUN python scripts/build_knowledge_base.py || echo "WARNING: Knowledge base build had issues"
+
+# ── Switch to non-root user ──
+USER user
 
 # Hugging Face Spaces port
 EXPOSE 7860
