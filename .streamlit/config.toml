@@ -1,0 +1,9 @@
+[server]
+# Disable XSRF protection — required for HF Spaces reverse proxy
+# Without this, file uploads return 403 AxiosError
+enableXsrfProtection = false
+enableCORS = false
+maxUploadSize = 10
+
+[browser]
+gatherUsageStats = false

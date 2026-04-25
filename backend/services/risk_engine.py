@@ -11,7 +11,7 @@ import time
 import logging
 from typing import Optional
 
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,13 +20,15 @@ logger = logging.getLogger(__name__)
 # ════════════════════════════════════════════════════════
 # CONFIGURATION
 # ════════════════════════════════════════════════════════
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-if not GROQ_API_KEY:
-    raise EnvironmentError("GROQ_API_KEY not set in .env")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise EnvironmentError("GEMINI_API_KEY not set in .env")
 
-_llm = ChatGroq(
-    api_key=GROQ_API_KEY,
-    model_name=os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),  #NEW
+_llm = ChatGoogleGenerativeAI(
+    google_api_key=os.getenv("GEMINI_API_KEY"),
+    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+    temperature=0.1
+),  #NEW
 
     temperature=0,
     max_tokens=2000,
@@ -206,7 +208,7 @@ def _call_llm_with_retry(prompt: str) -> Optional[str]:
         except Exception as e:
             err = str(e).lower()
             if "401" in err or "authentication" in err:
-                logger.error("Groq auth failed")
+                logger.error("Gemini auth failed")
                 return None
             if "429" in err or "rate limit" in err:
                 time.sleep(delay * 2)

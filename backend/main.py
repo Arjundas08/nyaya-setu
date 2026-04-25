@@ -30,8 +30,8 @@ from routes.voice     import router as voice_router
 def _validate_env():
     """Check all required env vars exist before server starts."""
     required = {
-        "GROQ_API_KEY": "Get from https://console.groq.com",
-        "GROQ_MODEL":   "e.g. llama-3.1-8b-instant",
+        "GEMINI_API_KEY": "Get from https://console.groq.com",
+        "GEMINI_MODEL":   "e.g. gemini-1.5-flash",
         "MONGO_URI":    "Get from MongoDB Atlas dashboard",
     }
     missing = []
@@ -115,7 +115,7 @@ async def health():
         "status":   "healthy",
         "version":  "2.0",
         "mongodb":  "connected" if is_connected() else "not_connected",
-        "model":    os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
+        "model":    os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
     }
 
 # ════════════════════════════════════════════════════════

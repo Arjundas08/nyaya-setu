@@ -21,7 +21,7 @@ import logging
 import time
 
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
@@ -36,27 +36,29 @@ logger = logging.getLogger(__name__)
 # ════════════════════════════════════════════════════════
 # CONFIGURATION
 # ════════════════════════════════════════════════════════
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 CHROMA_PATH  = "chroma_db"
 COLLECTION   = "nyaya_setu_laws"
 EMBED_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"
 
-if not GROQ_API_KEY:
-    raise EnvironmentError("GROQ_API_KEY not set in .env file")
+if not GEMINI_API_KEY:
+    raise EnvironmentError("GEMINI_API_KEY not set in .env file")
 
 
 # ════════════════════════════════════════════════════════
 # LOAD GROQ LLM
 # ════════════════════════════════════════════════════════
-print("Loading Groq LLM...")
-_llm = ChatGroq(
-    api_key=GROQ_API_KEY,
-    model_name=os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
+print("Loading Gemini LLM...")
+_llm = ChatGoogleGenerativeAI(
+    google_api_key=os.getenv("GEMINI_API_KEY"),
+    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+    temperature=0.1
+),
     temperature=0.1,
     max_tokens=1024,   # ← reduced: was 2000, frees ~1000 tokens from TPM budget
     request_timeout=30,
 )
-print("✅ Groq LLM ready")
+print("✅ Gemini LLM ready")
 
 
 # ════════════════════════════════════════════════════════
@@ -298,7 +300,7 @@ def ask_lawyer(question: str, document_text: str, session_id: str) -> dict:
         }
 
     except Exception as e:
-        logger.error(f"Groq LLM error: {e}")
+        logger.error(f"Gemini LLM error: {e}")
         return {
             "answer":        f"Sorry, I encountered an error: {str(e)}. Please try again.",
             "sources":       [],

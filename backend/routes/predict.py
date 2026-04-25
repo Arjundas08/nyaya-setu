@@ -6,7 +6,7 @@
 #   1. Accept rich case input
 #   2. Search Indian Kanoon for real precedents
 #   3. Fetch judgment fragments for context
-#   4. Groq LLM analyzes with real case law as context
+#   4. Gemini LLM analyzes with real case law as context
 #   5. Return comprehensive structured prediction
 # ════════════════════════════════════════════════════════════
 
@@ -16,17 +16,20 @@ import re
 import logging
 from fastapi import APIRouter
 from pydantic import BaseModel
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 
 load_dotenv()
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-# ── LLM setup — uses centralized GROQ_MODEL from .env ─────
-_llm = ChatGroq(
-    api_key    = os.getenv("GROQ_API_KEY"),
-    model_name = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
+# ── LLM setup — uses centralized GEMINI_MODEL from .env ─────
+_llm = ChatGoogleGenerativeAI(
+    google_api_key=os.getenv("GEMINI_API_KEY"),
+    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+    temperature=0.1
+),
+    model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
     temperature = 0.1,
     max_tokens  = 1200,
 )
