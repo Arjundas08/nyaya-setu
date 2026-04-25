@@ -209,8 +209,10 @@ f'</div></div>',
         # Play audio if available
         audio_key = f"audio_{msg_idx}"
         if audio_key in st.session_state and st.session_state[audio_key]:
-            # Use audio_key to ensure unique ID for each message's audio player
-            st.audio(st.session_state[audio_key], format="audio/wav", autoplay=True, key=f"player_{msg_idx}")
+            import base64
+            b64_audio = base64.b64encode(st.session_state[audio_key]).decode()
+            audio_html = f'<audio autoplay controls style="height:40px;width:100%;margin-top:10px;"><source src="data:audio/wav;base64,{b64_audio}" type="audio/wav"></audio>'
+            st.markdown(audio_html, unsafe_allow_html=True)
 
 
 # ════════════════════════════════════════════════════════════
